@@ -1,0 +1,93 @@
+#include <Keypad.h>
+const byte ROWS = 4; // 4 Rows
+const byte COLS = 4; // 4 Columns
+
+int z = 0;
+
+// 定義 Keypad 的按鍵
+char keys[ROWS][COLS] = {
+  {'7', '4', '1', '0'}, {'8', '5', '2', '+'},
+  {'9', '6', '3', '-'}, {'*', '/', 'E', 'F'}
+};
+// 定義 Keypad 連到 Arduino 的接腳
+byte rowPins[ROWS] = {5, 4, 3, 2};
+// 連到 Keypad 的 4 個 Rows
+byte colPins[COLS] = {10, 9, 8, 7};
+// 連到 Keypad 的 4 個 Columns
+// 建立 Keypad 物件
+Keypad keypad =
+  Keypad( makeKeymap(keys), rowPins,
+          colPins, ROWS, COLS );
+void setup() {
+  Serial.begin(9600);
+}
+void loop() {
+  int i;
+  int x, y;
+  char p;
+  char k[3];
+
+    for (i = 0; i <= 2;)
+    {
+      k[i] = keypad.getKey();
+      if (k[i] != NO_KEY)
+      {
+        if (i == 0)
+        {
+          x = k[i] - '0';
+          Serial.print("The first number is ");
+          Serial.print(x);
+          Serial.println(".");
+          i++;
+        }
+        else if (i == 1)
+        {
+          y = k[i] - '0';
+          Serial.print("The second number is ");
+          Serial.print(y);
+          Serial.println(".");
+          i++;
+        }
+        else if (i == 2)
+        {
+          p = k[i];
+          Serial.print("The operation is ");
+          Serial.print(p);
+          Serial.println(".");
+          i++;
+        }
+        
+      }
+    }
+ 
+
+ 
+if (p == '+')
+{
+  z = x + y;
+  Serial.print("The result is: ");
+  Serial.println(z);
+}
+else if (p == '-')
+{
+  z = x - y;
+  Serial.print("The result is: ");
+
+  Serial.println(z);
+}
+else if (p == '*')
+{
+  z = x * y;
+  Serial.print("The result is: ");
+
+  Serial.println(z);
+}
+else if (p == '/')
+{
+  z = x / y;
+  Serial.print("The result is: ");
+
+  Serial.println(z);
+}
+
+}
